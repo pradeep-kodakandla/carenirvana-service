@@ -8,7 +8,12 @@ require("dotenv").config();
 const app = express();
 const port = 3003; // Adjust this as needed
 
-app.use(cors());
+app.use(cors({
+    origin: ["http://localhost:4200"], // 🔹 Allow frontend requests
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true // ✅ Allow sending cookies & headers
+}));
+
 app.use(bodyParser.json());
 
 // PostgreSQL Connection
