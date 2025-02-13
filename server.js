@@ -6,7 +6,6 @@ const bodyParser = require("body-parser");
 require("dotenv").config();
 
 const app = express();
-const port = 3003; // Adjust this as needed
 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*"); // ✅ Allow all origins
@@ -231,7 +230,7 @@ app.delete("/:module/:section/:id", async (req, res) => {
 });
 
 // **Start the Server**
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
-
