@@ -7,14 +7,19 @@ require("dotenv").config();
 
 const app = express();
 
+// ✅ CORS Configuration (Allow Angular)
 const corsOptions = {
-    origin: "http://localhost:4200", // ✅ Allows Angular app to access API
-    methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS",
+    origin: "http://localhost:4200", // ✅ Allow requests from Angular
+    methods: "GET, POST, PUT, PATCH, DELETE, OPTIONS",
     allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept, Authorization",
-    credentials: true // ✅ Allows cookies/JWTs if authentication is required
+    credentials: true // ✅ Needed if using authentication tokens/cookies
 };
 
-app.use(cors(corsOptions));
+app.use(cors(corsOptions)); // ✅ Apply CORS to all routes
+
+// ✅ Handle Preflight Requests (OPTIONS method)
+app.options("*", cors(corsOptions));
+
 app.use(bodyParser.json());
 
 // PostgreSQL Connection
