@@ -9,9 +9,10 @@ const app = express();
 const port = 3003; // Adjust this as needed
 
 app.use(cors({
-    origin: ["http://localhost:4200"], // 🔹 Allow frontend requests
+    origin: "*",  // Allow requests from any origin
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true // ✅ Allow sending cookies & headers
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true
 }));
 
 app.use(bodyParser.json());
