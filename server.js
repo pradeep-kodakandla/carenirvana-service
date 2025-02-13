@@ -7,17 +7,14 @@ require("dotenv").config();
 
 const app = express();
 
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*"); // ✅ Allow all origins
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-    // ✅ Handle Preflight Requests
-    if (req.method === "OPTIONS") {
-        return res.sendStatus(204);
-    }
-    next();
-});
+const corsOptions = {
+    origin: "http://localhost:4200", // ✅ Allows Angular app to access API
+    methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS",
+    allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+    credentials: true // ✅ Allows cookies/JWTs if authentication is required
+};
 
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 // PostgreSQL Connection
