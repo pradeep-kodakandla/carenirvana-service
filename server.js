@@ -7,18 +7,24 @@ require("dotenv").config();
 
 const app = express();
 
-// ✅ CORS Configuration (Allow Angular)
+// ✅ Correct CORS Configuration
 const corsOptions = {
-    origin: "http://localhost:4200", // ✅ Allow requests from Angular
+    origin: "*", // ✅ Allows Angular frontend
     methods: "GET, POST, PUT, PATCH, DELETE, OPTIONS",
     allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept, Authorization",
-    credentials: true // ✅ Needed if using authentication tokens/cookies
+    credentials: true // ✅ Required if using cookies/JWTs
 };
 
-app.use(cors(corsOptions)); // ✅ Apply CORS to all routes
+app.use(cors(corsOptions));
 
-// ✅ Handle Preflight Requests (OPTIONS method)
-app.options("*", cors(corsOptions));
+// ✅ Explicitly Handle Preflight `OPTIONS` Requests
+app.options("*", (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.status(204).end(); // ✅ Return 204 No Content
+});
 
 app.use(bodyParser.json());
 
